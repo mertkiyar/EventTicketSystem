@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventTicketSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260510112646_InitialCreate")]
+    [Migration("20260510125859_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
