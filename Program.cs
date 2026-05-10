@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using EventTicketSystem.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=events.db"));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
