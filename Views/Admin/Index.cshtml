@@ -1,0 +1,37 @@
+@model List<EventTicketSystem.Models.Event>
+
+<div class="container mt-5">
+    <h2>Admin Panel - Events</h2>
+    <a class="btn btn-success mb-3" href="/Admin/Create">
+        Add New Event
+    </a>
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Tickets</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Location</td>
+                    <td>@item.Date.ToString("dd MMM yyyy")</td>
+                    <td>@item.TicketCount</td>
+                    <td>
+                        <a href="/Admin/Delete/@item.Id" class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
