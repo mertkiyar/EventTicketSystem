@@ -29,3 +29,46 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Category Navbar Styles */
+.category-navbar {
+  background: linear-gradient(to right, #ffffff, #fdfdfd, #f8f9fa);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.category-nav-list {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.category-nav-link {
+  font-weight: 600;
+  color: #4f5d75;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid transparent;
+}
+
+.category-nav-link:hover {
+  color: #2d3748;
+  background-color: #f1f3f5;
+  transform: translateY(-2px);
+}
+
+.category-nav-link.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+  border-color: transparent;
+}
