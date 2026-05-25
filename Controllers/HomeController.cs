@@ -1,14 +1,23 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EventTicketSystem.Models;
+using EventTicketSystem.Data;
 
 namespace EventTicketSystem.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly AppDbContext _context;
+
+    public HomeController(AppDbContext context)
+    {
+        _context = context;
+    }
+
     public IActionResult Index()
     {
-        return View();
+        var events = _context.Events.ToList();
+        return View(events);
     }
 
     public IActionResult Privacy()
