@@ -107,3 +107,72 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(30, 60, 114, 0.3);
 }
+
+/* Event Carousel Styles */
+#eventCarousel {
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+#eventCarousel .carousel-item {
+  height: 480px;
+}
+
+#eventCarousel img {
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.75);
+  transition: transform 8s ease-in-out;
+}
+
+#eventCarousel .carousel-item.active img {
+  transform: scale(1.05);
+}
+
+#eventCarousel .carousel-caption {
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 80px 40px 60px 40px !important;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
+}
+
+#eventCarousel .carousel-indicators [data-bs-target] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  box-sizing: border-box !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin: 0 6px !important;
+  padding: 0 !important;
+  background-color: #ffffff !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  opacity: 0.5 !important;
+  transition: width 0.3s ease, opacity 0.3s ease !important;
+  /* Safari Hardware Acceleration & WebKit Rendering fixes */
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  transform: translateZ(0) !important;
+}
+
+#eventCarousel .carousel-indicators .active {
+  width: 24px !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 768px) {
+  #eventCarousel .carousel-item {
+    height: 320px;
+  }
+  #eventCarousel .carousel-caption {
+    padding: 40px 20px 30px 20px !important;
+  }
+  #eventCarousel .carousel-caption h2 {
+    font-size: 1.75rem;
+  }
+  #eventCarousel .carousel-caption p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem !important;
+  }
+}

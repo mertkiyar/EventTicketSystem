@@ -37,6 +37,66 @@
     </div>
 }
 
-<div class="text-center mt-5">
-    <h1 class="display-4 fw-bold mb-3">Welcome to Event Ticket System</h1>
+<div class="container mt-4">
+    <!-- Hero Slider / Carousel -->
+    <div id="eventCarousel" class="carousel slide carousel-fade shadow-sm rounded-4 overflow-hidden" data-bs-ride="carousel">
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#eventCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#eventCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#eventCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <!-- Slides -->
+        <div class="carousel-inner">
+            <!-- Slide 1: Concert -->
+            <div class="carousel-item active" data-bs-interval="5000">
+                <img src="~/images/concert_banner.png" class="d-block w-100" alt="Live Concerts">
+                <div class="carousel-caption text-start">
+                    <div class="container px-0 px-md-4">
+                        <span class="badge bg-danger mb-2 px-3 py-2 rounded-pill text-uppercase" style="letter-spacing: 1px; font-weight: 700;">Live & Loud</span>
+                        <h2 class="display-5 fw-bold text-white mb-2">Feel the Rhythm of the Night</h2>
+                        <p class="lead text-light mb-4 d-none d-sm-block">Book exclusive tickets for the hottest live music events and international artists.</p>
+                        <a href="#" class="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm">Explore Concerts</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Theater -->
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="~/images/theater_banner.png" class="d-block w-100" alt="Theatre Plays">
+                <div class="carousel-caption text-start">
+                    <div class="container px-0 px-md-4">
+                        <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill text-uppercase" style="letter-spacing: 1px; font-weight: 700;">Classic & Modern</span>
+                        <h2 class="display-5 fw-bold text-white mb-2">Experience Majestic Theater</h2>
+                        <p class="lead text-light mb-4 d-none d-sm-block">From classic tragedies to modern Broadway hits, reserve your stage front seats today.</p>
+                        <a href="#" class="btn btn-warning rounded-pill px-4 py-2 fw-bold shadow-sm text-dark">Explore Theater</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Sports -->
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="~/images/sports_banner.png" class="d-block w-100" alt="Sports Events">
+                <div class="carousel-caption text-start">
+                    <div class="container px-0 px-md-4">
+                        <span class="badge bg-success mb-2 px-3 py-2 rounded-pill text-uppercase" style="letter-spacing: 1px; font-weight: 700;">Passionate Matches</span>
+                        <h2 class="display-5 fw-bold text-white mb-2">Be Part of the Game</h2>
+                        <p class="lead text-light mb-4 d-none d-sm-block">Don't miss the thrill! Get your match day tickets and support your favorite team live.</p>
+                        <a href="#" class="btn btn-success rounded-pill px-4 py-2 fw-bold shadow-sm text-white">Explore Sports</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#eventCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 </div>
