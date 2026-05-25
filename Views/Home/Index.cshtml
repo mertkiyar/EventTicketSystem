@@ -38,9 +38,40 @@
                 </li>
             </ul>
 
-            <div class="auth-buttons d-flex gap-2 justify-content-end" style="min-width: 170px;">
-                <a href="javascript:void(0)" onclick="openAuthModal('login')" class="btn btn-outline-dark auth-btn">Login</a>
-                <a href="javascript:void(0)" onclick="openAuthModal('register')" class="btn btn-dark auth-btn">Register</a>
+            <div class="auth-buttons d-flex gap-3 align-items-center justify-content-end" style="min-width: 200px;">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="dropdown">
+                        <a href="javascript:void(0)" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            <img src="~/images/default_avatar.png" alt="Profile" class="rounded-circle border" style="width: 38px; height: 38px; object-fit: cover; margin-right: 8px;">
+                            <span class="text-dark fw-bold" style="font-size: 0.9rem;">@User.Identity.Name</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="profileDropdown">
+                            <li class="px-3 py-2 border-bottom">
+                                <span class="d-block text-muted" style="font-size: 0.75rem;">Signed in as</span>
+                                <span class="d-block fw-bold text-dark" style="font-size: 0.85rem;">@User.Identity.Name</span>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2 d-flex align-items-center" asp-controller="Events" asp-action="Index">
+                                    <i class="bi bi-ticket-perforated me-2"></i> My Tickets
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                                    <button type="submit" class="dropdown-item text-danger py-2 d-flex align-items-center" style="border: none; background: none; width: 100%; text-align: left; font-weight: 500;">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a href="javascript:void(0)" onclick="openAuthModal('login')" class="btn btn-outline-dark auth-btn">Login</a>
+                    <a href="javascript:void(0)" onclick="openAuthModal('register')" class="btn btn-dark auth-btn">Register</a>
+                }
             </div>
         </div>
     </div>
@@ -128,13 +159,13 @@
                         <div class="event-card-body">
                             <h3 class="event-card-title">@ev.Title</h3>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📍</span> @ev.Location
+                                <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @ev.Location
                             </div>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📅</span> @ev.Date.ToString("dd MMM yyyy")
+                                <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @ev.Date.ToString("dd MMM yyyy")
                             </div>
                             <div class="event-card-footer">
-                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;">🎫 @ev.TicketCount left</span>
+                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i class="bi bi-ticket-perforated-fill me-1"></i> @ev.TicketCount left</span>
                                 <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-dark event-card-btn">Details</a>
                             </div>
                         </div>
@@ -167,13 +198,13 @@
                         <div class="event-card-body">
                             <h3 class="event-card-title">@ev.Title</h3>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📍</span> @ev.Location
+                                <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @ev.Location
                             </div>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📅</span> @ev.Date.ToString("dd MMM yyyy")
+                                <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @ev.Date.ToString("dd MMM yyyy")
                             </div>
                             <div class="event-card-footer">
-                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;">🎫 @ev.TicketCount left</span>
+                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i class="bi bi-ticket-perforated-fill me-1"></i> @ev.TicketCount left</span>
                                 <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-warning event-card-btn text-dark">Details</a>
                             </div>
                         </div>
@@ -206,13 +237,13 @@
                         <div class="event-card-body">
                             <h3 class="event-card-title">@ev.Title</h3>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📍</span> @ev.Location
+                                <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @ev.Location
                             </div>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📅</span> @ev.Date.ToString("dd MMM yyyy")
+                                <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @ev.Date.ToString("dd MMM yyyy")
                             </div>
                             <div class="event-card-footer">
-                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;">🎫 @ev.TicketCount left</span>
+                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i class="bi bi-ticket-perforated-fill me-1"></i> @ev.TicketCount left</span>
                                 <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-danger event-card-btn">Details</a>
                             </div>
                         </div>
@@ -245,13 +276,13 @@
                         <div class="event-card-body">
                             <h3 class="event-card-title">@ev.Title</h3>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📍</span> @ev.Location
+                                <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @ev.Location
                             </div>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📅</span> @ev.Date.ToString("dd MMM yyyy")
+                                <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @ev.Date.ToString("dd MMM yyyy")
                             </div>
                             <div class="event-card-footer">
-                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;">🎫 @ev.TicketCount left</span>
+                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i class="bi bi-ticket-perforated-fill me-1"></i> @ev.TicketCount left</span>
                                 <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-info event-card-btn text-dark">Details</a>
                             </div>
                         </div>
@@ -284,13 +315,13 @@
                         <div class="event-card-body">
                             <h3 class="event-card-title">@ev.Title</h3>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📍</span> @ev.Location
+                                <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @ev.Location
                             </div>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📅</span> @ev.Date.ToString("dd MMM yyyy")
+                                <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @ev.Date.ToString("dd MMM yyyy")
                             </div>
                             <div class="event-card-footer">
-                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;">🎫 @ev.TicketCount left</span>
+                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i class="bi bi-ticket-perforated-fill me-1"></i> @ev.TicketCount left</span>
                                 <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-secondary event-card-btn text-white">Details</a>
                             </div>
                         </div>
@@ -323,13 +354,13 @@
                         <div class="event-card-body">
                             <h3 class="event-card-title">@ev.Title</h3>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📍</span> @ev.Location
+                                <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @ev.Location
                             </div>
                             <div class="event-card-info">
-                                <span class="event-card-info-icon">📅</span> @ev.Date.ToString("dd MMM yyyy")
+                                <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @ev.Date.ToString("dd MMM yyyy")
                             </div>
                             <div class="event-card-footer">
-                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;">🎫 @ev.TicketCount left</span>
+                                <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i class="bi bi-ticket-perforated-fill me-1"></i> @ev.TicketCount left</span>
                                 <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-success event-card-btn text-white">Details</a>
                             </div>
                         </div>

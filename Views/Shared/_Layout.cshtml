@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EventTicketSystem.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
@@ -29,14 +30,15 @@
                     <!-- Login Form -->
                     <div class="auth-form-side">
                         <h2 class="auth-form-title">Welcome Back</h2>
-                        <form onsubmit="event.preventDefault();">
+                        <div class="alert alert-danger py-2 px-3 mb-3 rounded-3" id="loginError" style="display: none; font-size: 0.85rem; text-align: left;"></div>
+                        <form onsubmit="handleLogin(event)">
                             <div class="auth-input-group">
                                 <label class="auth-label">Email Address</label>
-                                <input type="email" class="auth-input" placeholder="name@example.com" required>
+                                <input type="email" id="loginEmail" class="auth-input" placeholder="name@example.com" required>
                             </div>
                             <div class="auth-input-group">
                                 <label class="auth-label">Password</label>
-                                <input type="password" class="auth-input" placeholder="Enter your password" required>
+                                <input type="password" id="loginPassword" class="auth-input" placeholder="Enter your password" required>
                             </div>
                             <button type="submit" class="auth-submit-btn">Sign In</button>
                             <p class="auth-switch-text">
@@ -49,18 +51,19 @@
                     <!-- Register Form -->
                     <div class="auth-form-side">
                         <h2 class="auth-form-title">Create Account</h2>
-                        <form onsubmit="event.preventDefault();">
+                        <div class="alert alert-danger py-2 px-3 mb-3 rounded-3" id="registerError" style="display: none; font-size: 0.85rem; text-align: left;"></div>
+                        <form onsubmit="handleRegister(event)">
                             <div class="auth-input-group">
                                 <label class="auth-label">Full Name</label>
-                                <input type="text" class="auth-input" placeholder="John Doe" required>
+                                <input type="text" id="registerName" class="auth-input" placeholder="John Doe" required>
                             </div>
                             <div class="auth-input-group">
                                 <label class="auth-label">Email Address</label>
-                                <input type="email" class="auth-input" placeholder="name@example.com" required>
+                                <input type="email" id="registerEmail" class="auth-input" placeholder="name@example.com" required>
                             </div>
                             <div class="auth-input-group">
                                 <label class="auth-label">Password</label>
-                                <input type="password" class="auth-input" placeholder="Create a password" required>
+                                <input type="password" id="registerPassword" class="auth-input" placeholder="Create a password" required>
                             </div>
                             <button type="submit" class="auth-submit-btn">Sign Up</button>
                             <p class="auth-switch-text">
@@ -86,6 +89,8 @@
             const overlay = document.getElementById('authOverlay');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('registerError').style.display = 'none';
         }
 
         function switchAuthMode(mode) {
@@ -94,6 +99,66 @@
                 slider.style.transform = 'translateX(-50%)';
             } else {
                 slider.style.transform = 'translateX(0)';
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+
+            try {
+                const response = await fetch('/Account/Login', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    window.location.reload();
+                } else {
+                    errorDiv.innerText = result.message;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const errorDiv = document.getElementById('registerError');
+            errorDiv.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('fullName', fullName);
+            formData.append('email', email);
+            formData.append('password', password);
+
+            try {
+                const response = await fetch('/Account/Register', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    window.location.reload();
+                } else {
+                    errorDiv.innerText = result.message;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
             }
         }
     </script>
