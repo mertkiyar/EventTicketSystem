@@ -1,0 +1,134 @@
+@model List<EventTicketSystem.Models.Ticket>
+@{
+    ViewData["Title"] = "My Tickets";
+}
+
+@section Navbar {
+    <div id="category-navbar" class="category-navbar py-2 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div style="width: 170px;" class="d-none d-lg-block"></div>
+
+            <ul class="nav category-nav-list justify-content-center">
+                <li class="nav-item">
+                    <a class="category-nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="category-nav-link active" href="#">My Tickets</a>
+                </li>
+            </ul>
+
+            <div class="auth-buttons d-flex gap-3 align-items-center justify-content-end" style="min-width: 200px;">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="dropdown">
+                        <a href="javascript:void(0)" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            <img src="~/images/default_avatar.png" alt="Profile" class="rounded-circle border" style="width: 38px; height: 38px; object-fit: cover; margin-right: 8px;">
+                            <span class="text-dark fw-bold" style="font-size: 0.9rem;">@User.Identity.Name</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="profileDropdown">
+                            <li class="px-3 py-2 border-bottom">
+                                <span class="d-block text-muted" style="font-size: 0.75rem;">Signed in as</span>
+                                <span class="d-block fw-bold text-dark" style="font-size: 0.85rem;">@User.Identity.Name</span>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2 d-flex align-items-center" asp-controller="Events" asp-action="MyTickets">
+                                    <i class="bi bi-ticket-perforated me-2"></i> My Tickets
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                                    <button type="submit" class="dropdown-item text-danger py-2 d-flex align-items-center" style="border: none; background: none; width: 100%; text-align: left; font-weight: 500;">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container mt-5">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show rounded-3 mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="my-tickets-header mb-4">
+        <h1 class="my-tickets-title"><i class="bi bi-ticket-perforated-fill me-2"></i>My Tickets</h1>
+        <p class="text-muted">All tickets linked to your account</p>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="my-tickets-empty">
+            <i class="bi bi-ticket-perforated my-tickets-empty-icon"></i>
+            <h3>No tickets yet</h3>
+            <p class="text-muted">Browse events and get your first ticket!</p>
+            <a href="/" class="btn btn-dark rounded-pill px-4 py-2 mt-2">
+                <i class="bi bi-search me-2"></i>Explore Events
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="my-tickets-grid">
+            @foreach (var ticket in Model)
+            {
+                <div class="my-ticket-card">
+                    <div class="my-ticket-img-wrap">
+                        <img src="@ticket.Event.ImageUrl" alt="@ticket.Event.Title" onerror="this.src='/images/concert_banner.png'">
+                        <span class="my-ticket-category-badge">@ticket.Event.Category</span>
+                    </div>
+                    <div class="my-ticket-body">
+                        <h3 class="my-ticket-event-title">@ticket.Event.Title</h3>
+                        <div class="my-ticket-meta">
+                            <div class="my-ticket-meta-row">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>@ticket.Event.Location</span>
+                            </div>
+                            <div class="my-ticket-meta-row">
+                                <i class="bi bi-calendar-event-fill"></i>
+                                <span>@ticket.Event.Date.ToString("dd MMM yyyy")</span>
+                            </div>
+                            <div class="my-ticket-meta-row">
+                                <i class="bi bi-person-fill"></i>
+                                <span>@ticket.CustomerName</span>
+                            </div>
+                            <div class="my-ticket-meta-row">
+                                <i class="bi bi-envelope-fill"></i>
+                                <span>@ticket.CustomerEmail</span>
+                            </div>
+                        </div>
+                        <div class="my-ticket-footer">
+                            <div class="my-ticket-id">
+                                <span class="text-muted" style="font-size:0.75rem;">Ticket ID</span>
+                                <span class="fw-bold">#@ticket.Id.ToString("D6")</span>
+                            </div>
+                            <div class="my-ticket-date">
+                                <span class="text-muted" style="font-size:0.75rem;">Purchased</span>
+                                <span>@ticket.PurchaseDate.ToString("dd MMM yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-ticket-barcode">
+                        <div class="barcode-lines"></div>
+                        <span class="barcode-text">TKT-@ticket.Id.ToString("D8")</span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4 mb-5">
+            <a href="/" class="btn btn-outline-dark rounded-pill px-4 py-2">
+                <i class="bi bi-plus-circle me-2"></i>Get More Tickets
+            </a>
+        </div>
+    }
+</div>

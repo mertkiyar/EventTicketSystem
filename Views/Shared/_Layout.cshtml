@@ -77,8 +77,27 @@
         </div>
     </div>
 
+    <!-- Event Details Modal -->
+    <div class="event-details-overlay" id="eventDetailsOverlay" onclick="if(event.target === this) closeEventDetailsModal()">
+        <div class="event-details-card" id="eventDetailsCard">
+            <button type="button" class="auth-close-btn" onclick="closeEventDetailsModal()">✕</button>
+            <!-- Content will be injected here -->
+            <div id="eventDetailsContent">
+                <div class="event-details-loading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function openAuthModal(mode) {
+        // ===== Auth Modal =====
+        var _pendingEventId = null;
+
+        function openAuthModal(mode, eventId) {
+            _pendingEventId = eventId || null;
             const overlay = document.getElementById('authOverlay');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -120,7 +139,14 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    window.location.reload();
+                    closeAuthModal();
+                    if (_pendingEventId) {
+                        // Open event details after login
+                        openEventDetailsModal(_pendingEventId);
+                        _pendingEventId = null;
+                    } else {
+                        window.location.reload();
+                    }
                 } else {
                     errorDiv.innerText = result.message;
                     errorDiv.style.display = 'block';
@@ -151,7 +177,13 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    window.location.reload();
+                    closeAuthModal();
+                    if (_pendingEventId) {
+                        openEventDetailsModal(_pendingEventId);
+                        _pendingEventId = null;
+                    } else {
+                        window.location.reload();
+                    }
                 } else {
                     errorDiv.innerText = result.message;
                     errorDiv.style.display = 'block';
@@ -160,6 +192,87 @@
                 errorDiv.innerText = 'An error occurred. Please try again.';
                 errorDiv.style.display = 'block';
             }
+        }
+
+        // ===== Event Details Modal =====
+        var _isAuthenticated = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
+
+        function handleDetailsClick(eventId) {
+            if (_isAuthenticated) {
+                openEventDetailsModal(eventId);
+            } else {
+                openAuthModal('login', eventId);
+            }
+        }
+
+        async function openEventDetailsModal(eventId) {
+            const overlay = document.getElementById('eventDetailsOverlay');
+            const content = document.getElementById('eventDetailsContent');
+
+            // Show loading
+            content.innerHTML = '<div class="event-details-loading"><div class="spinner-border text-primary" role="status"></div></div>';
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            try {
+                const response = await fetch('/Events/DetailsJson/' + eventId);
+                if (!response.ok) throw new Error('Failed to load');
+                const ev = await response.json();
+                renderEventDetailsModal(ev);
+            } catch (err) {
+                content.innerHTML = '<div class="p-4 text-center text-danger">Could not load event details.</div>';
+            }
+        }
+
+        function renderEventDetailsModal(ev) {
+            const content = document.getElementById('eventDetailsContent');
+            const dateStr = new Date(ev.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            content.innerHTML = `
+                <div class="event-details-img-wrap">
+                    <img src="${ev.imageUrl}" alt="${ev.title}" onerror="this.src='/images/concert_banner.png'">
+                    <span class="event-details-badge">${ev.category}</span>
+                </div>
+                <div class="event-details-body">
+                    <h2 class="event-details-title">${ev.title}</h2>
+                    <p class="event-details-desc">${ev.description}</p>
+                    <div class="event-details-meta">
+                        <div class="event-details-meta-item">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>${ev.location}</span>
+                        </div>
+                        <div class="event-details-meta-item">
+                            <i class="bi bi-calendar-event-fill"></i>
+                            <span>${dateStr}</span>
+                        </div>
+                        <div class="event-details-meta-item">
+                            <i class="bi bi-ticket-perforated-fill"></i>
+                            <span>${ev.ticketCount} tickets remaining</span>
+                        </div>
+                    </div>
+                    <div class="event-details-purchase">
+                        <div class="event-details-purchase-info">
+                            <span class="event-details-purchase-label">1 Ticket per Person</span>
+                            <span class="event-details-purchase-sub">Ticket will be linked to your account</span>
+                        </div>
+                        ${ev.ticketCount > 0
+                            ? `<form method="post" action="/Events/Buy/${ev.id}" class="d-inline">
+                                   <button type="submit" class="event-details-buy-btn" id="buyTicketBtn-${ev.id}">
+                                       <i class="bi bi-bag-check-fill me-2"></i>Buy Ticket
+                                   </button>
+                               </form>`
+                            : `<button class="event-details-buy-btn disabled" disabled>
+                                   <i class="bi bi-x-circle me-2"></i>Sold Out
+                               </button>`
+                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeEventDetailsModal() {
+            const overlay = document.getElementById('eventDetailsOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     </script>
 

@@ -51,7 +51,7 @@ namespace EventTicketSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("EventTicketSystem.Models.Ticket", b =>
@@ -81,7 +81,7 @@ namespace EventTicketSystem.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("EventTicketSystem.Models.Ticket", b =>
