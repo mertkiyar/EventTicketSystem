@@ -3,54 +3,6 @@
     ViewData["Title"] = "My Tickets";
 }
 
-@section Navbar {
-    <div id="category-navbar" class="category-navbar py-2 border-bottom">
-        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div style="width: 170px;" class="d-none d-lg-block"></div>
-
-            <ul class="nav category-nav-list justify-content-center">
-                <li class="nav-item">
-                    <a class="category-nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="category-nav-link active" href="#">My Tickets</a>
-                </li>
-            </ul>
-
-            <div class="auth-buttons d-flex gap-3 align-items-center justify-content-end" style="min-width: 200px;">
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    <div class="dropdown">
-                        <a href="javascript:void(0)" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                            <img src="~/images/default_avatar.png" alt="Profile" class="rounded-circle border" style="width: 38px; height: 38px; object-fit: cover; margin-right: 8px;">
-                            <span class="text-dark fw-bold" style="font-size: 0.9rem;">@User.Identity.Name</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="profileDropdown">
-                            <li class="px-3 py-2 border-bottom">
-                                <span class="d-block text-muted" style="font-size: 0.75rem;">Signed in as</span>
-                                <span class="d-block fw-bold text-dark" style="font-size: 0.85rem;">@User.Identity.Name</span>
-                            </li>
-                            <li>
-                                <a class="dropdown-item py-2 d-flex align-items-center" asp-controller="Events" asp-action="MyTickets">
-                                    <i class="bi bi-ticket-perforated me-2"></i> My Tickets
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
-                                    <button type="submit" class="dropdown-item text-danger py-2 d-flex align-items-center" style="border: none; background: none; width: 100%; text-align: left; font-weight: 500;">
-                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-}
-
 <div class="container mt-5">
     @if (TempData["SuccessMessage"] != null)
     {
@@ -83,7 +35,8 @@
             {
                 <div class="my-ticket-card">
                     <div class="my-ticket-img-wrap">
-                        <img src="@ticket.Event.ImageUrl" alt="@ticket.Event.Title" onerror="this.src='/images/concert_banner.png'">
+                        <img src="@ticket.Event.ImageUrl" alt="@ticket.Event.Title"
+                             onerror="this.src='/images/concert_banner.png'">
                         <span class="my-ticket-category-badge">@ticket.Event.Category</span>
                     </div>
                     <div class="my-ticket-body">

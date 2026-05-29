@@ -1,0 +1,52 @@
+@model List<EventTicketSystem.Models.Event>
+
+<!-- Festival Banner Section -->
+<div class="festival-banner-section"
+     style="background: linear-gradient(135deg, #6C757D 0%, #5A6268 100%); padding: 60px 20px; color: white; margin-bottom: 40px; border-radius: 8px; margin-top: -15px;">
+    <div class="container">
+        <span class="badge bg-secondary text-white px-3 py-2 rounded-pill text-uppercase mb-3"
+              style="letter-spacing: 1px; font-weight: 700; display: inline-block;">Celebrate Life</span>
+        <h1 class="display-4 fw-bold mb-3">Festivals</h1>
+        <p class="lead mb-0">Music, art, food and culture — dive into the most vibrant festivals of the year.</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    @if (Model.Any())
+    {
+        <div class="event-scroll-container">
+            @foreach (var item in Model)
+            {
+                <div class="event-card">
+                    <div class="event-card-img-wrapper">
+                        <span class="event-card-badge bg-secondary text-white">Festival</span>
+                        <img class="event-card-img" src="@item.ImageUrl" alt="@item.Title"
+                             onerror="this.src='/images/festival_banner.png'">
+                    </div>
+                    <div class="event-card-body">
+                        <h3 class="event-card-title">@item.Title</h3>
+                        <div class="event-card-info">
+                            <i class="bi bi-geo-alt event-card-info-icon me-1"></i> @item.Location
+                        </div>
+                        <div class="event-card-info">
+                            <i class="bi bi-calendar3 event-card-info-icon me-1"></i> @item.Date.ToString("dd MMM yyyy")
+                        </div>
+                        <div class="event-card-footer">
+                            <span class="text-muted" style="font-size: 0.85rem; font-weight: 500;"><i
+                                class="bi bi-ticket-perforated-fill me-1"></i> @item.TicketCount left</span>
+                                <button type="button" onclick="handleDetailsClick(@item.Id)"
+                                        class="btn btn-secondary event-card-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    else
+        {
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle me-2"></i>
+                No festivals scheduled at the moment. Check back soon!
+            </div>
+        }
+    </div>

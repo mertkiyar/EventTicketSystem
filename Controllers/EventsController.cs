@@ -97,6 +97,51 @@ namespace EventTicketSystem.Controllers
             return RedirectToAction("MyTickets");
         }
 
+        public IActionResult Theater()
+        {
+            var events = _context.Events.ToList()
+                .Where(e => e.Category != null && (e.Category.Contains("Theater", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Tiyatro", StringComparison.OrdinalIgnoreCase)))
+                .OrderBy(e => e.Date)
+                .ToList();
+            return View(events);
+        }
+
+        public IActionResult Concert()
+        {
+            var events = _context.Events.ToList()
+                .Where(e => e.Category != null && (e.Category.Contains("Concert", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Konser", StringComparison.OrdinalIgnoreCase)))
+                .OrderBy(e => e.Date)
+                .ToList();
+            return View(events);
+        }
+
+        public IActionResult Cinema()
+        {
+            var events = _context.Events.ToList()
+                .Where(e => e.Category != null && (e.Category.Contains("Cinema", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Sinema", StringComparison.OrdinalIgnoreCase)))
+                .OrderBy(e => e.Date)
+                .ToList();
+            return View(events);
+        }
+
+        public IActionResult Festival()
+        {
+            var events = _context.Events.ToList()
+                .Where(e => e.Category != null && e.Category.Contains("Festival", StringComparison.OrdinalIgnoreCase))
+                .OrderBy(e => e.Date)
+                .ToList();
+            return View(events);
+        }
+
+        public IActionResult Sports()
+        {
+            var events = _context.Events.ToList()
+                .Where(e => e.Category != null && (e.Category.Contains("Sports", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Spor", StringComparison.OrdinalIgnoreCase)))
+                .OrderBy(e => e.Date)
+                .ToList();
+            return View(events);
+        }
+
         [Authorize]
         public IActionResult MyTickets()
         {
