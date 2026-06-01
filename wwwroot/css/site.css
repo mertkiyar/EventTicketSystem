@@ -913,3 +913,9 @@ body {
   font-family: monospace;
   letter-spacing: 1px;
 }
+
+/* ===== Carousel Controls — Narrow width only ===== */
+#eventCarousel .carousel-control-prev,
+#eventCarousel .carousel-control-next {
+  width: 7%;
+}
