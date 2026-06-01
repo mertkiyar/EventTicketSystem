@@ -6,8 +6,9 @@
     <div class="row">
         @foreach (var item in Model)
         {
+            var isPast = item.Date.Date.Add(item.Time.ToTimeSpan()) < DateTime.Now;
             <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow">
+                <div class="card h-100 shadow @(isPast ? "opacity-75 bg-light" : "")" style="@(isPast ? "filter: grayscale(100%);" : "")">
                     <img src="@item.ImageUrl" class="card-img-top" style="height: 250px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>

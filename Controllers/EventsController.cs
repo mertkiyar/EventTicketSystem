@@ -97,7 +97,7 @@ namespace EventTicketSystem.Controllers
             return RedirectToAction("MyTickets");
         }
 
-        private const int PageSize = 6;
+        private const int PageSize = 8;
 
         public IActionResult Theater(int page = 1)
         {

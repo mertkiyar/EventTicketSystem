@@ -15,10 +15,11 @@
     <div class="container mb-5">
         @if (Model.Any())
         {
-            <div class="event-scroll-container">
+            <div class="event-grid">
                 @foreach (var item in Model)
                 {
-                    <div class="event-card">
+                    var isPast = item.Date.Date.Add(item.Time.ToTimeSpan()) < DateTime.Now;
+                    <div class="event-card @(isPast ? "past-event" : "")">
                         <div class="event-card-img-wrapper">
                             <span class="event-card-badge bg-danger text-white">Concert</span>
                             <img class="event-card-img" src="@item.ImageUrl" alt="@item.Title"

@@ -141,7 +141,8 @@ List<EventTicketSystem.Models.Event>();
                                             {
                                                 @foreach (var ev in upcomingEvents)
                                                 {
-                                                    <div class="event-card">
+                                                    var isPast = ev.Date.Date.Add(ev.Time.ToTimeSpan()) < DateTime.Now;
+                                                    <div class="event-card @(isPast ? "past-event" : "")">
                                                         <div class="event-card-img-wrapper">
                                                             <span class="event-card-badge bg-primary text-white">@ev.Category</span>
                                                             <img class="event-card-img" src="@ev.ImageUrl" alt="@ev.Title"
@@ -183,7 +184,8 @@ List<EventTicketSystem.Models.Event>();
                                                 {
                                                     @foreach (var ev in dbTheater)
                                                     {
-                                                        <div class="event-card">
+                                                        var isPast = ev.Date.Date.Add(ev.Time.ToTimeSpan()) < DateTime.Now;
+                                                        <div class="event-card @(isPast ? "past-event" : "")">
                                                             <div class="event-card-img-wrapper">
                                                                 <span class="event-card-badge bg-warning text-dark">Theater</span>
                                                                 <img class="event-card-img" src="@ev.ImageUrl" alt="@ev.Title"
@@ -225,7 +227,8 @@ List<EventTicketSystem.Models.Event>();
                                                     {
                                                         @foreach (var ev in dbConcert)
                                                         {
-                                                            <div class="event-card">
+                                                            var isPast = ev.Date.Date.Add(ev.Time.ToTimeSpan()) < DateTime.Now;
+                                                            <div class="event-card @(isPast ? "past-event" : "")">
                                                                 <div class="event-card-img-wrapper">
                                                                     <span class="event-card-badge bg-danger text-white">Concert</span>
                                                                     <img class="event-card-img" src="@ev.ImageUrl" alt="@ev.Title"
@@ -267,7 +270,8 @@ List<EventTicketSystem.Models.Event>();
                                                         {
                                                             @foreach (var ev in dbCinema)
                                                             {
-                                                                <div class="event-card">
+                                                                var isPast = ev.Date.Date.Add(ev.Time.ToTimeSpan()) < DateTime.Now;
+                                                                <div class="event-card @(isPast ? "past-event" : "")">
                                                                     <div class="event-card-img-wrapper">
                                                                         <span class="event-card-badge bg-info text-dark">Cinema</span>
                                                                         <img class="event-card-img" src="@ev.ImageUrl" alt="@ev.Title"
@@ -309,7 +313,8 @@ List<EventTicketSystem.Models.Event>();
                                                             {
                                                                 @foreach (var ev in dbFestival)
                                                                 {
-                                                                    <div class="event-card">
+                                                                    var isPast = ev.Date.Date.Add(ev.Time.ToTimeSpan()) < DateTime.Now;
+                                                                    <div class="event-card @(isPast ? "past-event" : "")">
                                                                         <div class="event-card-img-wrapper">
                                                                             <span class="event-card-badge bg-secondary text-white">Festival</span>
                                                                             <img class="event-card-img" src="@ev.ImageUrl" alt="@ev.Title"
@@ -351,7 +356,8 @@ List<EventTicketSystem.Models.Event>();
                                                                 {
                                                                     @foreach (var ev in dbSports)
                                                                     {
-                                                                        <div class="event-card">
+                                                                        var isPast = ev.Date.Date.Add(ev.Time.ToTimeSpan()) < DateTime.Now;
+                                                                        <div class="event-card @(isPast ? "past-event" : "")">
                                                                             <div class="event-card-img-wrapper">
                                                                                 <span class="event-card-badge bg-success text-white">Sports</span>
                                                                                 <img class="event-card-img" src="@ev.ImageUrl" alt="@ev.Title"
