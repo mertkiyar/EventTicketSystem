@@ -26,8 +26,12 @@
                     <td>@item.Date.ToString("dd MMM yyyy")</td>
                     <td>@item.TicketCount</td>
                     <td>
-                        <a href="/Admin/Delete/@item.Id" class="btn btn-danger btn-sm">
-                            Delete
+                        <a href="/Admin/Edit/@item.Id" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a href="/Admin/Delete/@item.Id" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="bi bi-trash"></i> Delete
                         </a>
                     </td>
                 </tr>

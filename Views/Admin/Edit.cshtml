@@ -2,9 +2,11 @@
 
 <div class="container mt-5">
 
-    <h2>Create Event</h2>
+    <h2>Edit Event</h2>
 
     <form method="post" enctype="multipart/form-data">
+
+        <input type="hidden" asp-for="Id" />
 
         <div class="form-group mb-3">
             <label for="Title" class="form-label">Title</label>
@@ -42,8 +44,16 @@
         <div class="form-group mb-3">
             <label for="imageFile" class="form-label">Event Image</label>
             <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" />
-            <small class="form-text text-muted">Upload an image for the event. If no image is selected, a default image
-                will be used.</small>
+            <small class="form-text text-muted">Upload a new image to replace the current one. Leave empty to keep the
+                current image.</small>
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="mt-2">
+                        <p><strong>Current Image:</strong></p>
+                        <img src="@Model.ImageUrl" alt="Event image" style="max-width: 200px; height: auto; border-radius: 8px;"
+                             onerror="this.src='/images/concert_banner.png'" />
+                    </div>
+                }
             </div>
 
             <div class="form-group mb-3">
@@ -56,17 +66,17 @@
                 <label for="Category" class="form-label">Category</label>
                 <select asp-for="Category" class="form-control" required>
                     <option value="">Select a category</option>
-                    <option value="Theater">Theater</option>
-                    <option value="Concert">Concert</option>
-                    <option value="Cinema">Cinema</option>
-                    <option value="Festival">Festival</option>
-                    <option value="Sports">Sports</option>
+                    <option value="Theater" selected="@(Model.Category == "Theater" ? "selected" : "")">Theater</option>
+                    <option value="Concert" selected="@(Model.Category == "Concert" ? "selected" : "")">Concert</option>
+                    <option value="Cinema" selected="@(Model.Category == "Cinema" ? "selected" : "")">Cinema</option>
+                    <option value="Festival" selected="@(Model.Category == "Festival" ? "selected" : "")">Festival</option>
+                    <option value="Sports" selected="@(Model.Category == "Sports" ? "selected" : "")">Sports</option>
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle me-2"></i>Create Event
+                <i class="bi bi-pencil-square me-2"></i>Update Event
             </button>
             <a href="/Admin/Index" class="btn btn-secondary btn-lg">
                 <i class="bi bi-x-circle me-2"></i>Cancel

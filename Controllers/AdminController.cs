@@ -47,14 +47,99 @@ namespace EventTicketSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Event model)
+        public async Task<IActionResult> Create(Event model, IFormFile imageFile)
         {
             if (!IsUserAdmin())
                 return UnauthorizedAdminAccess();
 
             if (!ModelState.IsValid)
                 return View(model);
+
+            // Handle image upload
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                // Generate unique filename
+                string filename = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
+                string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", filename);
+
+                // Create directory if it doesn't exist
+                Directory.CreateDirectory(Path.GetDirectoryName(uploadPath));
+
+                // Save file
+                using (var stream = new FileStream(uploadPath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Set the image URL
+                model.ImageUrl = $"/uploads/{filename}";
+            }
+            else if (string.IsNullOrEmpty(model.ImageUrl))
+            {
+                // Provide a default image if none is provided
+                model.ImageUrl = "/images/concert_banner.png";
+            }
+
             _context.Events.Add(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            if (!IsUserAdmin())
+                return UnauthorizedAdminAccess();
+
+            var eventItem = _context.Events.FirstOrDefault(x => x.Id == id);
+            if (eventItem == null)
+                return NotFound();
+
+            return View(eventItem);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Event model, IFormFile imageFile)
+        {
+            if (!IsUserAdmin())
+                return UnauthorizedAdminAccess();
+
+            var eventItem = _context.Events.FirstOrDefault(x => x.Id == id);
+            if (eventItem == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            // Update basic properties
+            eventItem.Title = model.Title;
+            eventItem.Description = model.Description;
+            eventItem.Location = model.Location;
+            eventItem.Date = model.Date;
+            eventItem.Time = model.Time;
+            eventItem.TicketCount = model.TicketCount;
+            eventItem.Category = model.Category;
+
+            // Handle image upload (if provided)
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                // Generate unique filename
+                string filename = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
+                string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", filename);
+
+                // Create directory if it doesn't exist
+                Directory.CreateDirectory(Path.GetDirectoryName(uploadPath));
+
+                // Save file
+                using (var stream = new FileStream(uploadPath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Update image URL
+                eventItem.ImageUrl = $"/uploads/{filename}";
+            }
+
+            _context.Events.Update(eventItem);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
