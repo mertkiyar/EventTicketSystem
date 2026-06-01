@@ -33,11 +33,18 @@
         <div class="my-tickets-grid">
             @foreach (var ticket in Model)
             {
-                <div class="my-ticket-card">
+                <div class="my-ticket-card" style="@(ticket.Status == "Cancelled" ? "opacity: 0.6;" : "")">
                     <div class="my-ticket-img-wrap">
                         <img src="@ticket.Event.ImageUrl" alt="@ticket.Event.Title"
                              onerror="this.src='/images/concert_banner.png'">
                         <span class="my-ticket-category-badge">@ticket.Event.Category</span>
+                        @if (ticket.Status == "Cancelled")
+                        {
+                            <div
+                                style="position: absolute; top: 10px; right: 10px; background: rgba(220, 53, 69, 0.9); color: white; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem;">
+                                CANCELLED
+                            </div>
+                        }
                     </div>
                     <div class="my-ticket-body">
                         <h3 class="my-ticket-event-title">@ticket.Event.Title</h3>
@@ -69,6 +76,18 @@
                                 <span>@ticket.PurchaseDate.ToString("dd MMM yyyy")</span>
                             </div>
                         </div>
+                        @if (ticket.Status == "Active")
+                        {
+                            <div class="mt-3">
+                                <form method="post" asp-action="CancelTicket" asp-route-ticketId="@ticket.Id"
+                                      style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Cancel this ticket?')">
+                                        <i class="bi bi-x-circle me-1"></i> Cancel Ticket
+                                    </button>
+                                </form>
+                            </div>
+                        }
                     </div>
                     <div class="my-ticket-barcode">
                         <div class="barcode-lines"></div>

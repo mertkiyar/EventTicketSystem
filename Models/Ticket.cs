@@ -11,5 +11,6 @@ namespace EventTicketSystem.Models
         public required Event Event { get; set; }
         public int UserId { get; set; }
         public User? User { get; set; }
+        public string Status { get; set; } = "Active"; // Active, Cancelled
     }
 }

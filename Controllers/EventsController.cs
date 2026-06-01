@@ -214,5 +214,35 @@ namespace EventTicketSystem.Controllers
 
             return View(tickets);
         }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult CancelTicket(int ticketId)
+        {
+            var userIdStr = User.FindFirstValue("UserId");
+            if (!int.TryParse(userIdStr, out int userId))
+                return RedirectToAction("Index", "Home");
+
+            var ticket = _context.Tickets.FirstOrDefault(t => t.Id == ticketId && t.UserId == userId);
+            if (ticket == null)
+                return NotFound();
+
+            if (ticket.Status == "Active")
+            {
+                ticket.Status = "Cancelled";
+                var eventItem = _context.Events.FirstOrDefault(e => e.Id == ticket.EventId);
+                if (eventItem != null)
+                {
+                    eventItem.TicketCount += 1;
+                }
+
+                _context.Tickets.Update(ticket);
+                _context.SaveChanges();
+
+                TempData["SuccessMessage"] = "✓ Ticket cancelled succesfully. Seat is now available.";
+            }
+
+            return RedirectToAction("MyTickets");
+        }
     }
 }
