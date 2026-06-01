@@ -63,7 +63,7 @@ namespace EventTicketSystem.Controllers
                 string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", filename);
 
                 // Create directory if it doesn't exist
-                Directory.CreateDirectory(Path.GetDirectoryName(uploadPath));
+                Directory.CreateDirectory(Path.GetDirectoryName(uploadPath) ?? string.Empty);
 
                 // Save file
                 using (var stream = new FileStream(uploadPath, FileMode.Create))
@@ -127,7 +127,7 @@ namespace EventTicketSystem.Controllers
                 string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", filename);
 
                 // Create directory if it doesn't exist
-                Directory.CreateDirectory(Path.GetDirectoryName(uploadPath));
+                Directory.CreateDirectory(Path.GetDirectoryName(uploadPath) ?? string.Empty);
 
                 // Save file
                 using (var stream = new FileStream(uploadPath, FileMode.Create))
