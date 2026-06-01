@@ -97,48 +97,105 @@ namespace EventTicketSystem.Controllers
             return RedirectToAction("MyTickets");
         }
 
-        public IActionResult Theater()
+        private const int PageSize = 6;
+
+        public IActionResult Theater(int page = 1)
         {
-            var events = _context.Events.ToList()
+            var allEvents = _context.Events.ToList()
                 .Where(e => e.Category != null && (e.Category.Contains("Theater", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Tiyatro", StringComparison.OrdinalIgnoreCase)))
                 .OrderBy(e => e.Date)
                 .ToList();
+
+            var totalCount = allEvents.Count;
+            var totalPages = (int)Math.Ceiling((double)totalCount / PageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            var events = allEvents.Skip((page - 1) * PageSize).Take(PageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
             return View(events);
         }
 
-        public IActionResult Concert()
+        public IActionResult Concert(int page = 1)
         {
-            var events = _context.Events.ToList()
+            var allEvents = _context.Events.ToList()
                 .Where(e => e.Category != null && (e.Category.Contains("Concert", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Konser", StringComparison.OrdinalIgnoreCase)))
                 .OrderBy(e => e.Date)
                 .ToList();
+
+            var totalCount = allEvents.Count;
+            var totalPages = (int)Math.Ceiling((double)totalCount / PageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            var events = allEvents.Skip((page - 1) * PageSize).Take(PageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
             return View(events);
         }
 
-        public IActionResult Cinema()
+        public IActionResult Cinema(int page = 1)
         {
-            var events = _context.Events.ToList()
+            var allEvents = _context.Events.ToList()
                 .Where(e => e.Category != null && (e.Category.Contains("Cinema", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Sinema", StringComparison.OrdinalIgnoreCase)))
                 .OrderBy(e => e.Date)
                 .ToList();
+
+            var totalCount = allEvents.Count;
+            var totalPages = (int)Math.Ceiling((double)totalCount / PageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            var events = allEvents.Skip((page - 1) * PageSize).Take(PageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
             return View(events);
         }
 
-        public IActionResult Festival()
+        public IActionResult Festival(int page = 1)
         {
-            var events = _context.Events.ToList()
+            var allEvents = _context.Events.ToList()
                 .Where(e => e.Category != null && e.Category.Contains("Festival", StringComparison.OrdinalIgnoreCase))
                 .OrderBy(e => e.Date)
                 .ToList();
+
+            var totalCount = allEvents.Count;
+            var totalPages = (int)Math.Ceiling((double)totalCount / PageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            var events = allEvents.Skip((page - 1) * PageSize).Take(PageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
             return View(events);
         }
 
-        public IActionResult Sports()
+        public IActionResult Sports(int page = 1)
         {
-            var events = _context.Events.ToList()
+            var allEvents = _context.Events.ToList()
                 .Where(e => e.Category != null && (e.Category.Contains("Sports", StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Spor", StringComparison.OrdinalIgnoreCase)))
                 .OrderBy(e => e.Date)
                 .ToList();
+
+            var totalCount = allEvents.Count;
+            var totalPages = (int)Math.Ceiling((double)totalCount / PageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            var events = allEvents.Skip((page - 1) * PageSize).Take(PageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
             return View(events);
         }
 
