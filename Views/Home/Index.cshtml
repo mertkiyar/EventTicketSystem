@@ -3,7 +3,7 @@
     ViewData["Title"] = "Home Page";
 
     // Filter database events by category
-    var upcomingEvents = Model?.OrderBy(e => e.Date).Take(6).ToList() ?? new List<EventTicketSystem.Models.Event>();
+    var upcomingEvents = Model?.Where(e => e.Date.Date.Add(e.Time.ToTimeSpan()) >= DateTime.Now).OrderBy(e => e.Date).Take(6).ToList() ?? new List<EventTicketSystem.Models.Event>();
     var dbTheater = Model?.Where(e => e.Category != null && (e.Category.Contains("Theater",
 StringComparison.OrdinalIgnoreCase) || e.Category.Contains("Tiyatro", StringComparison.OrdinalIgnoreCase))).ToList() ??
 new List<EventTicketSystem.Models.Event>();
