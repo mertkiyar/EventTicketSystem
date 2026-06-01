@@ -52,33 +52,27 @@ namespace EventTicketSystem.Controllers
             if (!IsUserAdmin())
                 return UnauthorizedAdminAccess();
 
-            if (!ModelState.IsValid)
-                return View(model);
-
-            // Handle image upload
+            // Handle image upload BEFORE ModelState check
             if (imageFile != null && imageFile.Length > 0)
             {
-                // Generate unique filename
                 string filename = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
                 string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", filename);
-
-                // Create directory if it doesn't exist
                 Directory.CreateDirectory(Path.GetDirectoryName(uploadPath) ?? string.Empty);
-
-                // Save file
                 using (var stream = new FileStream(uploadPath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
                 }
-
-                // Set the image URL
                 model.ImageUrl = $"/uploads/{filename}";
             }
             else if (string.IsNullOrEmpty(model.ImageUrl))
             {
-                // Provide a default image if none is provided
                 model.ImageUrl = "/images/concert_banner.png";
             }
+
+            ModelState.Remove("ImageUrl");
+
+            if (!ModelState.IsValid)
+                return View(model);
 
             _context.Events.Add(model);
             _context.SaveChanges();
