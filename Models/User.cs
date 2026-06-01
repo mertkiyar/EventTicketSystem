@@ -18,5 +18,7 @@ namespace EventTicketSystem.Models
         [Required]
         [MaxLength(255)]
         public required string PasswordHash { get; set; }
+
+        public bool IsAdmin { get; set; } = false;
     }
 }
