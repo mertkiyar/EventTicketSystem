@@ -17,7 +17,7 @@
         <div class="event-grid">
             @foreach (var item in Model)
             {
-                var isPast = item.Date.Date.Add(item.Time.ToTimeSpan()) < DateTime.Now;
+                var isPast = item.Date.Date.Add(item.Time.ToTimeSpan()) < DateTime.Now || item.TicketCount <= 0;
                 <div class="event-card @(isPast ? "past-event" : "")">
                     <div class="event-card-img-wrapper">
                         <span class="event-card-badge bg-secondary text-white">Festival</span>
