@@ -47,7 +47,7 @@ namespace EventTicketSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Event model, IFormFile imageFile)
+        public async Task<IActionResult> Create(Event model, IFormFile? imageFile)
         {
             if (!IsUserAdmin())
                 return UnauthorizedAdminAccess();
@@ -92,7 +92,7 @@ namespace EventTicketSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Event model, IFormFile imageFile)
+        public async Task<IActionResult> Edit(int id, Event model, IFormFile? imageFile)
         {
             if (!IsUserAdmin())
                 return UnauthorizedAdminAccess();
@@ -131,6 +131,11 @@ namespace EventTicketSystem.Controllers
 
                 // Update image URL
                 eventItem.ImageUrl = $"/uploads/{filename}";
+            }
+            else
+            {
+                // Keep existing image if no new file provided
+                eventItem.ImageUrl = model.ImageUrl;
             }
 
             _context.Events.Update(eventItem);
