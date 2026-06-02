@@ -67,11 +67,11 @@
                 <label for="Category" class="form-label">Category</label>
                 <select asp-for="Category" class="form-control" required>
                     <option value="">Select a category</option>
-                    <option value="Theater" selected="@(Model.Category == "Theater" ? "selected" : "")">Theater</option>
-                    <option value="Concert" selected="@(Model.Category == "Concert" ? "selected" : "")">Concert</option>
-                    <option value="Cinema" selected="@(Model.Category == "Cinema" ? "selected" : "")">Cinema</option>
-                    <option value="Festival" selected="@(Model.Category == "Festival" ? "selected" : "")">Festival</option>
-                    <option value="Sports" selected="@(Model.Category == "Sports" ? "selected" : "")">Sports</option>
+                    <option value="Theater">Theater</option>
+                    <option value="Concert">Concert</option>
+                    <option value="Cinema">Cinema</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Sports">Sports</option>
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
