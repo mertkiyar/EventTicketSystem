@@ -40,6 +40,70 @@ using (var scope = app.Services.CreateScope())
         context.Users.Add(adminUser);
         context.SaveChanges();
     }
+// this sample data added because in Railway website,database usually will be empty, so it will add this data.
+    if (!context.Events.Any())
+    {
+        var sampleEvents = new List<Event>
+        {
+            new Event
+            {
+                Title = "The Phantom of the Opera",
+                Description = "Experience the classic musical masterpiece live on stage. A story of love, obsession, and music.",
+                Location = "Royal Opera House",
+                Date = DateTime.Now.AddDays(15),
+                Time = new TimeOnly(19, 30),
+                ImageUrl = "/images/concert_banner.png",
+                TicketCount = 120,
+                Category = "Theater"
+            },
+            new Event
+            {
+                Title = "Coldplay Music of the Spheres Tour",
+                Description = "Join Coldplay for an unforgettable night of music, lights, and energy at the stadium.",
+                Location = "Wembley Stadium",
+                Date = DateTime.Now.AddDays(30),
+                Time = new TimeOnly(20, 0),
+                ImageUrl = "/images/concert_banner.png",
+                TicketCount = 250,
+                Category = "Concert"
+            },
+            new Event
+            {
+                Title = "Interstellar - IMAX Special Screening",
+                Description = "Watch Christopher Nolan's sci-fi epic on the largest IMAX screen with enhanced audio.",
+                Location = "IMAX Cinema Center",
+                Date = DateTime.Now.AddDays(5),
+                Time = new TimeOnly(18, 0),
+                ImageUrl = "/images/concert_banner.png",
+                TicketCount = 80,
+                Category = "Cinema"
+            },
+            new Event
+            {
+                Title = "Sziget Festival 2026",
+                Description = "One of the largest music and cultural festivals in Europe. 7 days of non-stop fun and artists.",
+                Location = "Obuda Island, Budapest",
+                Date = DateTime.Now.AddDays(60),
+                Time = new TimeOnly(14, 0),
+                ImageUrl = "/images/concert_banner.png",
+                TicketCount = 500,
+                Category = "Festival"
+            },
+            new Event
+            {
+                Title = "Champions League Final 2026 Viewing Party",
+                Description = "Watch the biggest football match of the year on a giant screen with food, drinks, and fans.",
+                Location = "Sports Arena Lounge",
+                Date = DateTime.Now.AddDays(25),
+                Time = new TimeOnly(21, 45),
+                ImageUrl = "/images/concert_banner.png",
+                TicketCount = 150,
+                Category = "Sports"
+            }
+        };
+        context.Events.AddRange(sampleEvents);
+        context.SaveChanges();
+    }
 }
 
 string HashPassword(string password)
